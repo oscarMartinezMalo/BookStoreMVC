@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
+using BookRental.ViewModels;
 
 namespace BookRental.Controllers
 {
@@ -21,7 +22,26 @@ namespace BookRental.Controllers
         {
             _context.Dispose();
         }
-        // GET: Customers
+
+        public ActionResult New()
+        {
+            var membershipTypes = _context.MembershipTypes.ToList();
+            var viewModel = new NewCustomerViewModel
+            {
+                MembershipTypes = membershipTypes
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Create( Customer customer)
+        {
+            _context.Customers.Add(customer);
+            _context.SaveChanges();
+            return RedirectToAction("Index", "Customers");
+        }
+
         public ActionResult Index()
         {
             //var customers = _context.Customers.ToList();
