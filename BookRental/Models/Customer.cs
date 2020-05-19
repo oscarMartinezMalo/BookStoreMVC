@@ -9,16 +9,19 @@ namespace BookRental.Models
     public class Customer
     {
         public int Id { get; set; }
-        [Required]
+        //[Required(ErrorMessage ="Please enter customer's name")] to change UI error message
+        [Required]      // Data Anotation other examples [Range(1,10)],  [Compare("OtherProperty")],...
         [StringLength(255)]
         public string Name { get; set; }
 
         //[Display(Name = "Date of Birth")]  to display the text in the UI
+        [Min18YearsIfAMember]
         public DateTime? BirthDate { get; set; }
         public bool IsSubscribedToNewsLetter { get; set; }
 
-        [Display(Name = "Membership Type")]
         public MembershipType MembershipType { get; set; }
+
+        [Display(Name = "Membership Type")]
         public byte MembershipTypeId { get; set; }
     }
 }
