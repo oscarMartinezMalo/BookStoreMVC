@@ -15,11 +15,12 @@ namespace BookRental.Dtos
         [StringLength(255)]
         public string Name { get; set; }
 
+        //        [Min18YearsIfAMember]  Is remark because is create to use MVC action instead of API
+        public DateTime? BirthDate { get; set; }
         public bool IsSubscribedToNewsletter { get; set; }
 
         public byte MembershipTypeId { get; set; }
-
-        //        [Min18YearsIfAMember]
-        public DateTime? Birthdate { get; set; }
+        public MembershipTypeDto MembershipType { get; set; }
+        
     }
 }

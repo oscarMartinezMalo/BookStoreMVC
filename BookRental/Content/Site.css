@@ -23,9 +23,13 @@ textarea {
     max-width: 280px;
 }
 
-span.field-validation-error {
+span.field-validation-error, label.error {
     color: red;
 }
-.input-validation-error {
+.input-validation-error, input.error {
     border: 1px solid red;
+}
+
+.btn.btn-primary {
+    margin: 20px 0 20px 0;
 }

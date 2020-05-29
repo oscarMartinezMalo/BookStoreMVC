@@ -82,8 +82,14 @@ namespace BookRental.Controllers
         public ActionResult Index()
         {
             //var customers = _context.Customers.ToList();
-            var customers = _context.Customers.Include(c => c.MembershipType).ToList();
-            return View(customers);
+            // Use this when you are rendering the customers from the server
+            //var customers = _context.Customers.Include(c => c.MembershipType).ToList();
+            //return View(customers);
+
+            if (User.IsInRole(RoleName.CanManageMovies))
+                return View("Index");
+
+            return View("ReadOnlyList");  // You dont need to pass customers because you are going to get the customers from an AJAX request
         }
         public ActionResult Details(int id)
         {

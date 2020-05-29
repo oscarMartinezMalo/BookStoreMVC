@@ -1,0 +1,129 @@
+﻿
+@{
+    ViewBag.Title = "New Rental";
+}
+
+<h2>New Rental</h2>
+
+<form id="newRental" action="">
+    <div class="form-group">
+        <label>Customer</label>
+        <div class="tt-containe">
+            <input id="customer" name="customer" data-rule-validCustomer="true" required type="text" value="" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Add Book</label>
+        <div class="tt-containe">
+            <input id="movie" name="movie" data-rule-validBook="true" type="text" value="" class="form-control" />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 col-12">
+            <ul id="movies" class="list-group"></ul>
+        </div>
+    </div>
+
+    <button class="btn btn-primary">Submit</button>
+</form>
+
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            let vm = {
+                moviesIds: []
+            };
+
+            // Typeahead Customer
+            var customers = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                remote: {
+                    url: '/api/customers?query=%QUERY',
+                    wildcard: '%QUERY'
+                }
+            });
+
+            $('#customer').typeahead({
+                minLength: 3,
+                highlight: true
+            }, {
+                name: 'customers',
+                display: 'name',
+                source: customers
+            }).on("typeahead:select", function (e, customer) {
+                vm.customerId = customer.id;
+            });
+            ////
+
+            // Typeahead Movie
+            var movies = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                remote: {
+                    url: '/api/movies?query=%QUERY',
+                    wildcard: '%QUERY'
+                }
+            });
+
+            $('#movie').typeahead({
+                minLength: 3,
+                highlight: true
+            }, {
+                name: 'movies',
+                display: 'name',
+                source: movies
+            }).on("typeahead:select", function (e, movie) {
+                $("#movies").append(`<li class="list-group-item"> ${movie.name} </li>`)
+                $("#movie").typeahead("val", ""); // Empty the input
+                vm.moviesIds.push(movie.id);
+            });
+            ////
+
+            // Custome Validator for Input Customer
+            $.validator.addMethod("validCustomer", function () {
+                return vm.customerId && vm.customerId !== 0;
+            }, "Please select a valid customer.");
+            ////
+
+            // Custome Validator for Input Movie
+            $.validator.addMethod("validBook", function () {
+                return vm.moviesIds.length > 0;
+            }, "Please select at least one Book");
+            ////
+
+            // Validate form and then Submmit
+            let validator = $("#newRental").validate({
+                submitHandler: function(e) {
+                    // Submit the Form
+                    $("#newRental").submit(() => {
+                        $.ajax({
+                            url: "../api/newRentals",
+                            method: "post",
+                            data: vm,
+                        })
+                        .done(() => {
+                            toastr.success("Books successfully Rented");
+                            $("#customer").typeahead("val", ""); // Empty the input
+                            $("#movie").typeahead("val", ""); // Empty the input
+                            $("#movies").empty(); // Empty the List of movies
+                            vm = { moviesIds: [] };
+                            validator.resetForm(); // Reset the form in term of validation
+                        })
+                        .fail(() => {
+                            toastr.success("Something unexpected happened");
+                        })
+
+                        return false; // To prevent the default summit form
+                    });
+                    ////
+                }
+            });
+            ////
+        })
+    </script>
+}

@@ -54,9 +54,9 @@ namespace BookRental
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "1824046387736801",
+               appSecret: "ec5b6613d15c87047133c6a6eb70447d");
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{

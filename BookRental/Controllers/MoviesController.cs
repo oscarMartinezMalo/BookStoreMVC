@@ -24,7 +24,8 @@ namespace BookRental.Controllers
             _context.Dispose();
         }
 
-        public ActionResult MovieForm()
+        [Authorize(Roles = RoleName.CanManageMovies)]
+        public ActionResult New()
         {
             var genres = _context.Genres.ToList();
             var viewModel = new MovieFormViewModel
@@ -36,6 +37,7 @@ namespace BookRental.Controllers
             return View(viewModel);
         }
 
+        [Authorize(Roles = RoleName.CanManageMovies)]
         public ActionResult Edit(int id)
         {
             var movie = _context.Movies.SingleOrDefault(c => c.Id == id);
@@ -48,10 +50,11 @@ namespace BookRental.Controllers
                 Genres = _context.Genres.ToList()
             };
 
-            return View("MovieForm", viewModel);
+            return View("New", viewModel);
         }
 
         [HttpPost]
+        [Authorize(Roles = RoleName.CanManageMovies)]
         public ActionResult Save(Movie movie)
         {
             if (!ModelState.IsValid)
@@ -83,9 +86,13 @@ namespace BookRental.Controllers
 
         public ViewResult Index()
         {
-            //var movies = GetMovies();
             var movies = _context.Movies.Include(m => m.Genre).ToList();
-            return View(movies);
+            //var movies = GetMovies();
+            if (User.IsInRole(RoleName.CanManageMovies))
+                return View("List", movies);
+
+
+            return View("ReadOnlyList",movies);
         }
 
         public ActionResult Details(int id)

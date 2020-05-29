@@ -1,5 +1,6 @@
 ﻿using BookRental.Models;
 using System;
+using System.Data.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -20,32 +21,44 @@ namespace BookRental.Views.Customers.Api
         }
         // Get /api/customer
         //public IEnumerable<Customer> GetCustomers()   //Without using DTOs
-        public IEnumerable<CustomerDto> GetCustomers()
+        public IEnumerable<CustomerDto> GetCustomers(string  query = null)
         {
             // Get /api/customers
             //return _context.Customers.ToList()  //Without using DTOs
-            return _context.Customers.ToList().Select(Mapper.Map<Customer, CustomerDto>);
+
+            var customersQuery = _context.Customers
+                .Include(c => c.MembershipType);
+
+            if (!String.IsNullOrWhiteSpace(query))
+                customersQuery = customersQuery.Where(c => c.Name.Contains(query));
+
+            var customerDtos = customersQuery
+                .ToList()
+                .Select(Mapper.Map<Customer, CustomerDto>);
+
+            return customerDtos;
         }
 
         // Get /api/customers/1
-        public CustomerDto GetCustomer(int id)
+        //public CustomerDto GetCustomer(int id)   // Return 200 status and you 201 status
+        public IHttpActionResult GetCustomer(int id)
         {
             var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
-            if(customer == null)
-                throw new HttpRequestException( HttpStatusCode.NotFound.ToString() );
-
+            if (customer == null)
+                return NotFound();
+            //throw new HttpRequestException( HttpStatusCode.NotFound.ToString() );
             //return customer; //Without using DTOs
-            return Mapper.Map<Customer, CustomerDto>(customer);
+            return Ok(Mapper.Map<Customer, CustomerDto>(customer));
         }
 
         // POST /api/customers
         [HttpPost]
         //public Customer CreateCustomer(Customer customer) //Without using DTOs
-        public CustomerDto CreateCustomer(CustomerDto customerDto)
-
+        public IHttpActionResult CreateCustomer(CustomerDto customerDto)  // IHttpActionResult return status 201
         {
             if (!ModelState.IsValid)
-                throw new HttpRequestException(HttpStatusCode.BadRequest.ToString());
+                BadRequest();
+                //throw new HttpRequestException(HttpStatusCode.BadRequest.ToString());
 
             var customer = Mapper.Map<CustomerDto, Customer>(customerDto);
             _context.Customers.Add(customer);
@@ -53,7 +66,8 @@ namespace BookRental.Views.Customers.Api
 
             customerDto.Id = customer.Id;
 
-            return customerDto;
+            return Created(new Uri(Request.RequestUri + "/" + customer.Id), customerDto);
+            //return customerDto;
         }
 
         // PUT /api/customers/1
@@ -71,7 +85,7 @@ namespace BookRental.Views.Customers.Api
                 throw new HttpRequestException(HttpStatusCode.NotFound.ToString());
             }
 
-            Mapper.Map<CustomerDto, Customer>(customerDto, customerInDb);
+            Mapper.Map(customerDto, customerInDb);
             //customerInDb.Name = customer.Name;
             //customerInDb.BirthDate = customer.BirthDate;
             //customerInDb.IsSubscribedToNewsLetter = customer.IsSubscribedToNewsLetter;
