@@ -39,7 +39,7 @@ namespace BookRental.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Save( Customer customer)
         {
-            if ( !ModelState.IsValid)
+            if ( !ModelState.IsValid )
             {
                 var viewModel = new CustomerFormViewModel
                 {
