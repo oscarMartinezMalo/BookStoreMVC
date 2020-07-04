@@ -1,5 +1,5 @@
 ﻿:root {
-  --primay-color:#FFE9BE;
+  --primary-color:#b17400;
 }
 
 body {
@@ -22,11 +22,11 @@ body {
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
-input,
+/*input,
 select,
 textarea {
     max-width: 280px;
-}
+}*/
 
 span.field-validation-error, label.error {
     color: red;
@@ -35,18 +35,18 @@ span.field-validation-error, label.error {
     border: 1px solid red;
 }
 
-.btn.btn-primary {
-    margin: 20px 0 20px 0;
-}
-
 .navbar-inverse {
     background-color: transparent;
     border: none;
 }
 
 .navbar-inverse .navbar-nav > li > a {
-    color: #e0a739;
-    font-size: 22px;
+    color: #ffb11e;
+    font-size: 20px;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover {
+    color: #cc8600;
 }
 
 .container-fluid.body-content, .navbar > .container-fluid {
@@ -65,6 +65,99 @@ a.navbar-brand {
     padding-top: 3px;
 }
 
+.navbar-toggle {
+    background-color: var(--primary-color);
+    border: none;
+}
+
 .main-contain {
     padding-top: 60px;
 }
+
+h2.title {
+    text-align: center;
+    margin: 40px 0px;
+    color: var(--primary-color);
+}
+
+.btn.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    margin: 20px 0 20px 0;
+}
+
+input.btn.btn-default {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.form-card {
+    margin-bottom: 15px;
+    max-width: 400px;
+    margin: auto;
+}
+
+span.twitter-typeahead {
+    width: 100%;
+}
+
+input, select, textarea {
+    max-width:none;
+}
+/*Table Style*/
+
+table#customers, .table-bordered {
+    border: none;
+}
+
+table td, table th {
+    border-left: none !important;
+}
+
+.table-bordered> td, .table-bordered > tbody > tr > td,
+.table-bordered > thead > tr > th, .table-bordered > thead > tr > td {
+    border-right: 0px;
+}
+
+thead {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+table.dataTable thead .sorting:after {
+    opacity: 1;
+}
+
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/** End Table Style*/
+
+
+/*Media Queries*/
+@media only screen and (max-width: 767px) {
+    .navbar-collapse.in, .navbar-inverse .navbar-nav > li > a {
+        background-color: #fff6e4;
+    }
+
+    .navbar-nav {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+}
+
+@media only screen and (max-width: 992px) {
+    
+    .container-fluid.body-content, .navbar > .container-fluid {
+        margin: 0 5% 0 5%;
+    }
+
+    .hero-image {
+        margin-left: -5vw !important;
+    }
+}
+

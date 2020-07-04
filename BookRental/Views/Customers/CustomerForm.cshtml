@@ -6,9 +6,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>New Customer</h2>
+<h2 class="title">New Customer</h2>
 
-@using (Html.BeginForm("Save", "Customers"))
+@using (Html.BeginForm("Save", "Customers",FormMethod.Post, new { @class = "form-card" }))
 {
     //@Html.ValidationSummary()   Show all the errors on top of the form
     @Html.ValidationSummary(true, "Please fix the following errors")
@@ -30,7 +30,7 @@
     </div>
     <div class="checkbox">
         <label>
-            @Html.CheckBoxFor(m => m.Customer.IsSubscribedToNewsLetter) Subscribe to newsLetter
+            @Html.CheckBoxFor(m => m.Customer.IsSubscribedToNewsLetter) Subscribe to Newsletter
         </label>
     </div>
     @Html.HiddenFor(m=> m.Customer.Id)
