@@ -1,5 +1,5 @@
 ﻿:root {
-  --primary-color:#b17400;
+  --primary-color:#d88e00;
 }
 
 body {
@@ -41,12 +41,12 @@ span.field-validation-error, label.error {
 }
 
 .navbar-inverse .navbar-nav > li > a {
-    color: #ffb11e;
+    color: var(--primary-color);
     font-size: 20px;
 }
 
 .navbar-inverse .navbar-nav > li > a:hover {
-    color: #cc8600;
+    color: #f19e00;
 }
 
 .container-fluid.body-content, .navbar > .container-fluid {
@@ -84,6 +84,10 @@ h2.title {
     background-color: var(--primary-color);
     border-color: var(--primary-color);
     margin: 20px 0 20px 0;
+}
+
+.btn-default {
+    margin-top: 20px;
 }
 
 input.btn.btn-default {
@@ -135,6 +139,20 @@ table.dataTable thead .sorting:after {
 }
 
 /** End Table Style*/
+
+.book-card {
+    max-width: 400px;   
+    margin: auto;
+}
+
+.alert.alert-warning.book-card {
+    margin-top: 40px;
+}
+
+.book-card .title {
+    text-align: left;
+    margin-top: 0px;
+}
 
 
 /*Media Queries*/

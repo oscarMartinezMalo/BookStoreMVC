@@ -16,8 +16,8 @@ namespace BookRental.App_Start
             Mapper.CreateMap<CustomerDto, Customer>();
             Mapper.CreateMap<MembershipType, MembershipTypeDto>();
 
-            Mapper.CreateMap<Movie, MovieDto>();
-            Mapper.CreateMap<MovieDto, Movie>();
+            Mapper.CreateMap<Book, BookDto>();
+            Mapper.CreateMap<BookDto, Book>();
             Mapper.CreateMap<Genre , GenreDto>();
 
         }

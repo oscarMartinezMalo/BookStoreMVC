@@ -163,8 +163,8 @@ namespace BookRental.Controllers
                     // Temp Code to create an user with a role
                     //var roleStore = new RoleStore<IdentityRole>(new ApplicationDbContext());
                     //var roleManager = new RoleManager<IdentityRole>(roleStore);
-                    //await roleManager.CreateAsync(new IdentityRole("CanManageMovies"));
-                    //await UserManager.AddToRoleAsync(user.Id, "CanManageMovies");
+                    //await roleManager.CreateAsync(new IdentityRole("CanManageBooks"));
+                    //await UserManager.AddToRoleAsync(user.Id, "CanManageBooks");
 
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     

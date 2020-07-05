@@ -86,7 +86,7 @@ namespace BookRental.Controllers
             //var customers = _context.Customers.Include(c => c.MembershipType).ToList();
             //return View(customers);
 
-            if (User.IsInRole(RoleName.CanManageMovies))
+            if (User.IsInRole(RoleName.CanManageBooks))
                 return View("Index");
 
             return View("ReadOnlyList");  // You dont need to pass customers because you are going to get the customers from an AJAX request

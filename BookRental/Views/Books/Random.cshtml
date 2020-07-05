@@ -1,20 +1,18 @@
-﻿@model BookRental.ViewModels.RandomMovieViewModel
+﻿@model BookRental.ViewModels.RandomBookViewModel
 @{
     ViewBag.Title = "Random";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@* This is a comment*@
-
 @{ 
     var className = Model.Customers.Count > 5 ? "popular" : null;
 }
 
-<h2 class="@className title"> @Model.Movie.Name </h2>
+<h2 class="@className title"> @Model.Book.Name </h2>
 
 @if (Model.Customers.Count == 0)
 {
-    <text> There is no any movie </text>
+    <text> There is no any book </text>
 }
 
 <ul>

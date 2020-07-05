@@ -16,13 +16,13 @@
     <div class="form-group">
         <label>Add Book</label>
         <div class="tt-containe">
-            <input id="movie" name="movie" data-rule-validBook="true" type="text" value="" class="form-control" />
+            <input id="book" name="book" data-rule-validBook="true" type="text" value="" class="form-control" />
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-4 col-12">
-            <ul id="movies" class="list-group"></ul>
+            <ul id="books" class="list-group"></ul>
         </div>
     </div>
 
@@ -35,7 +35,7 @@
     <script>
         $(document).ready(function () {
             let vm = {
-                moviesIds: []
+                booksIds: []
             };
 
             // Typeahead Customer
@@ -60,27 +60,27 @@
             });
             ////
 
-            // Typeahead Movie
-            var movies = new Bloodhound({
+            // Typeahead book
+            var books = new Bloodhound({
                 datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
                 queryTokenizer: Bloodhound.tokenizers.whitespace,
                 remote: {
-                    url: '/api/movies?query=%QUERY',
+                    url: '/api/books?query=%QUERY',
                     wildcard: '%QUERY'
                 }
             });
 
-            $('#movie').typeahead({
+            $('#book').typeahead({
                 minLength: 3,
                 highlight: true
             }, {
-                name: 'movies',
+                name: 'books',
                 display: 'name',
-                source: movies
-            }).on("typeahead:select", function (e, movie) {
-                $("#movies").append(`<li class="list-group-item"> ${movie.name} </li>`)
-                $("#movie").typeahead("val", ""); // Empty the input
-                vm.moviesIds.push(movie.id);
+                source: books
+            }).on("typeahead:select", function (e, book) {
+                $("#books").append(`<li class="list-group-item"> ${book.name} </li>`)
+                $("#book").typeahead("val", ""); // Empty the input
+                vm.booksIds.push(book.id);
             });
             ////
 
@@ -90,9 +90,9 @@
             }, "Please select a valid customer.");
             ////
 
-            // Custome Validator for Input Movie
+            // Custome Validator for Input book
             $.validator.addMethod("validBook", function () {
-                return vm.moviesIds.length > 0;
+                return vm.booksIds.length > 0;
             }, "Please select at least one Book");
             ////
 
@@ -109,9 +109,9 @@
                         .done(() => {
                             toastr.success("Books successfully Rented");
                             $("#customer").typeahead("val", ""); // Empty the input
-                            $("#movie").typeahead("val", ""); // Empty the input
-                            $("#movies").empty(); // Empty the List of movies
-                            vm = { moviesIds: [] };
+                            $("#book").typeahead("val", ""); // Empty the input
+                            $("#books").empty(); // Empty the List of books
+                            vm = { booksIds: [] };
                             validator.resetForm(); // Reset the form in term of validation
                         })
                         .fail(() => {

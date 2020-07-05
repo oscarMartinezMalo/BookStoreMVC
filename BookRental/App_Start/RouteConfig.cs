@@ -14,9 +14,9 @@ namespace BookRental
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                "MoviesByReleaseDate",
-                "movies/released/{year}/{month}",
-                new { controller = "Movies", action = "ByReleaseDate" },
+                "BooksByReleaseDate",
+                "books/released/{year}/{month}",
+                new { controller = "Books", action = "ByReleaseDate" },
                 new { year =  @"\d{4}", month = @"\d{2}"});
 
             routes.MapRoute(

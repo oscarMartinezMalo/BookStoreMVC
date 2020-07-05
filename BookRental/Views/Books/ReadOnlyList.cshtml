@@ -1,32 +1,32 @@
 ﻿
 
-@model IEnumerable<BookRental.Models.Movie>
+@model IEnumerable<BookRental.Models.Book>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2 class="title"> Movies </h2>
+<h2 class="title"> Book </h2>
 
 @if (!Model.Any())
 {
-    <p>We don't have any movie yet.</p>
+    <p>We don't have any book yet.</p>
 }
 else
 {
     <table class="table table-bordered table-hover">
         <thead>
             <tr>
-                <th>Movie</th>
+                <th>Book</th>
                 <th>Genre</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var movie in Model)
+            @foreach (var book in Model)
             {
                 <tr>
-                    <td>@movie.Name</td>
-                    <td>@movie.Genre.Name</td>
+                    <td>@book.Name</td>
+                    <td>@book.Genre.Name</td>
                 </tr>
             }
         </tbody>

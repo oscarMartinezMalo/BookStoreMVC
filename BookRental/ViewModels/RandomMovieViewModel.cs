@@ -6,10 +6,9 @@ using System.Web;
 
 namespace BookRental.ViewModels
 {
-    public class RandomMovieViewModel
+    public class RandomBookViewModel
     {
-        public Movie Movie { get; set; }
+        public Book Book { get; set; } 
         public List<Customer> Customers { get; set; }
-
     }
 }

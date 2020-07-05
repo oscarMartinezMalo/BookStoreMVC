@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BookRental.Models
 {
-    public class Movie
+    public class Book
     {
         public int Id { get; set; }
         [Required]

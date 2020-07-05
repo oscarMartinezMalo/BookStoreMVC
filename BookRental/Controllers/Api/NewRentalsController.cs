@@ -22,29 +22,29 @@ namespace BookRental.Controllers.Api
         [HttpPost]
         public  IHttpActionResult CreateNewRentals(NewRentalDto newRental)
         {
-            if (newRental.MoviesIds.Count == 0)
-                return BadRequest("No Movie Ids have been given.");
+            if (newRental.BooksIds.Count == 0)
+                return BadRequest("No Books Ids have been given.");
 
             var customer = _context.Customers.SingleOrDefault(c => c.Id == newRental.CustomerId);
             if (customer == null)
                 return BadRequest("Invalid customer Id");
 
-            var movies = _context.Movies.Where(m => newRental.MoviesIds.Contains(m.Id)).ToList();
+            var books = _context.Books.Where(m => newRental.BooksIds.Contains(m.Id)).ToList();
 
-            if (movies.Count != newRental.MoviesIds.Count)
-                return BadRequest("One or more MovieIds are invalid");
+            if (books.Count != newRental.BooksIds.Count)
+                return BadRequest("One or more BookIds are invalid");
 
-            foreach (var movie in movies)
+            foreach (var book in books)
             {
-                if (movie.NumberAvailable == 0)
-                    return BadRequest("Movie is not available.");
+                if (book.NumberAvailable == 0)
+                    return BadRequest("Book is not available.");
 
-                movie.NumberAvailable--;
+                book.NumberAvailable--;
 
                 var rental = new Rental
                 {
                     Customer = customer,
-                    Movie = movie,
+                    Book = book,
                     DateRented = DateTime.Now
                 };
 

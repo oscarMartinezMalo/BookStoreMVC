@@ -7,10 +7,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BookRental.ViewModels
 {
-    public class MovieFormViewModel
+    public class BookFormViewModel
     {
         public IEnumerable<Genre> Genres { get; set; }
-        //public Movie Movie { get; set; }
+        //public Book Book { get; set; }
         public int? Id { get; set; }
         [Required]
         [StringLength(255)]
@@ -32,22 +32,22 @@ namespace BookRental.ViewModels
         {
             get
             {
-                return Id != 0 ? "Edit Movie":"New Movie";
+                return Id != 0 ? "Edit Book":"New Book";
             }
         }
 
-        public MovieFormViewModel()
+        public BookFormViewModel()
         {
             Id = 0;
         }
 
-        public MovieFormViewModel(Movie movie)
+        public BookFormViewModel(Book book)
         {
-            Id = movie.Id;
-            Name = movie.Name;
-            ReleaseDate = movie.ReleaseDate;
-            NumberInStock = movie.NumberInStock;
-            GenreId = movie.GenreId;
+            Id = book.Id;
+            Name = book.Name;
+            ReleaseDate = book.ReleaseDate;
+            NumberInStock = book.NumberInStock;
+            GenreId = book.GenreId;
         }
     }
 }

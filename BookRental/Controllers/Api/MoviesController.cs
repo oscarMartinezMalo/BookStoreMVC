@@ -11,27 +11,27 @@ using BookRental.Dtos;
 
 namespace BookRental.Controllers.Api
 {
-    public class MoviesController : ApiController
+    public class BooksController : ApiController
     {
         private ApplicationDbContext _context;
 
-        public MoviesController()
+        public BooksController()
         {
             _context = new ApplicationDbContext();
         }
 
-        public IEnumerable<MovieDto> GetMovies(string query = null)
+        public IEnumerable<BookDto> GetBooks(string query = null)
         {
-            var moviesQuery = _context.Movies
+            var booksQuery = _context.Books
                 .Include(m => m.Genre)
                 .Where(m => m.NumberAvailable > 0);
 
             if (!String.IsNullOrWhiteSpace(query))
-                moviesQuery = moviesQuery.Where(m => m.Name.Contains(query));
+                booksQuery = booksQuery.Where(m => m.Name.Contains(query));
 
-            return moviesQuery
+            return booksQuery
                 .ToList()
-                .Select(Mapper.Map<Movie, MovieDto>);
+                .Select(Mapper.Map<Book, BookDto>);
         }
     }
 }

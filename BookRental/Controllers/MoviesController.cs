@@ -10,11 +10,11 @@ using System.Web.Mvc;
 
 namespace BookRental.Controllers
 {
-    public class MoviesController : Controller
+    public class BooksController : Controller
     {
         private ApplicationDbContext _context;
 
-        public MoviesController()
+        public BooksController()
         {
             _context = new ApplicationDbContext();
         }
@@ -24,28 +24,28 @@ namespace BookRental.Controllers
             _context.Dispose();
         }
 
-        [Authorize(Roles = RoleName.CanManageMovies)]
+        [Authorize(Roles = RoleName.CanManageBooks)]
         public ActionResult New()
         {
             var genres = _context.Genres.ToList();
-            var viewModel = new MovieFormViewModel
+            var viewModel = new BookFormViewModel
             {
-                //Movie = new Movie(),  To avoid error in Id in the UI
+                //Book = new Book(),  To avoid error in Id in the UI
                 Genres = genres
             };
 
             return View(viewModel);
         }
 
-        [Authorize(Roles = RoleName.CanManageMovies)]
+        [Authorize(Roles = RoleName.CanManageBooks)]
         public ActionResult Edit(int id)
         {
-            var movie = _context.Movies.SingleOrDefault(c => c.Id == id);
+            var books = _context.Books.SingleOrDefault(c => c.Id == id);
 
-            if (movie == null)
+            if (books == null)
                 return HttpNotFound();
 
-            var viewModel = new MovieFormViewModel(movie)
+            var viewModel = new BookFormViewModel(books)
             {
                 Genres = _context.Genres.ToList()
             };
@@ -54,80 +54,80 @@ namespace BookRental.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = RoleName.CanManageMovies)]
-        public ActionResult Save(Movie movie)
+        [Authorize(Roles = RoleName.CanManageBooks)]
+        public ActionResult Save(Book book)
         {
             if (!ModelState.IsValid)
             {
-                var viewModel = new MovieFormViewModel(movie)
+                var viewModel = new BookFormViewModel(book)
                 {
                     Genres = _context.Genres.ToList()
                 };
-                return View("MovieForm", viewModel);
+                return View("BookForm", viewModel);
             }
 
-            if (movie.Id == 0)
+            if (book.Id == 0)
             {
-                movie.DateAdded = DateTime.Now;
-                _context.Movies.Add(movie);
+                book.DateAdded = DateTime.Now;
+                _context.Books.Add(book);
             }
             else
             {
-                var movieInDb = _context.Movies.Single(m => m.Id == movie.Id);
-                movieInDb.Name = movie.Name;
-                movieInDb.GenreId = movie.GenreId;
-                movieInDb.NumberInStock = movie.NumberInStock;
-                movieInDb.ReleaseDate = movie.ReleaseDate;
+                var bookInDb = _context.Books.Single(m => m.Id == book.Id);
+                bookInDb.Name = book.Name;
+                bookInDb.GenreId = book.GenreId;
+                bookInDb.NumberInStock = book.NumberInStock;
+                bookInDb.ReleaseDate = book.ReleaseDate;
             }
 
             _context.SaveChanges();
-            return RedirectToAction("Index", "Movies");
+            return RedirectToAction("Index", "Books");
         }
 
         public ViewResult Index()
         {
-            var movies = _context.Movies.Include(m => m.Genre).ToList();
-            //var movies = GetMovies();
-            if (User.IsInRole(RoleName.CanManageMovies))
-                return View("List", movies);
+            var books = _context.Books.Include(m => m.Genre).ToList();
+            //var books = GetBooks();
+            if (User.IsInRole(RoleName.CanManageBooks))
+                return View("List", books);
 
 
-            return View("ReadOnlyList",movies);
+            return View("ReadOnlyList",books);
         }
 
         public ActionResult Details(int id)
         {
-            var oneMovie = _context.Movies.Include(m => m.Genre).SingleOrDefault(m => m.Id == id);
+            var oneBook = _context.Books.Include(m => m.Genre).SingleOrDefault(m => m.Id == id);
 
-            if (oneMovie == null)
+            if (oneBook == null)
                 return HttpNotFound();
 
-            return View(oneMovie);
+            return View(oneBook);
         }
 
-        // GET: Movies/Random
+        // GET: Books/Random
         //public ActionResult Random()
         //{
-        //    var movie = new Movie() { Name = "Shrek!" };
+        //    var book = new Book() { Name = "Shrek!" };
         //    var customers = new List<Customer>
         //    {
         //        new Customer { Name = "Customer 1" },
         //        new Customer { Name = "Customer 2" }
         //    };
-        //    var viewModel = new RandomMovieViewModel
+        //    var viewModel = new RandomBookViewModel
         //    {
-        //        Movie = movie,
+        //        Book = book,
         //        Customers = customers
         //    };
         //    return View(viewModel);
         //}
 
-        //private IEnumerable<Movie> GetMovies()
+        //private IEnumerable<Book> GetBooks()
         //{
-        //    return new List<Movie>
+        //    return new List<Book>
         //    {
-        //        //new Movie { Id = 1, Name = "Shrek" },
-        //        //new Movie { Id = 2, Name = "Wall-e" }
+        //        //new Book { Id = 1, Name = "Shrek" },
+        //        //new Book { Id = 2, Name = "Wall-e" }
         //    };
         //}
     }

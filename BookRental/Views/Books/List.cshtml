@@ -1,0 +1,39 @@
+﻿
+
+@model IEnumerable<BookRental.Models.Book>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="title"> Books </h2>
+
+@if (!Model.Any())
+{
+    <p>We don't have any book yet.</p>
+}
+else
+{
+    @Html.ActionLink("New Book", "New", "Books", null, new { @class = "btn btn-primary" })
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Book</th>
+                <th>Genre</th>
+                <th>Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var book in Model)
+            {
+                <tr>
+                    <td>@Html.ActionLink(book.Name, "Details", "Books", new { id = book.Id }, null)</td>
+                    <td>@book.Genre.Name</td>
+                    <td>@Html.ActionLink("Edit Link", "Edit", "Books", new { id = book.Id }, null)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
